@@ -28,7 +28,8 @@ async function renderWorks() {
         img.src = work.imageUrl;
         img.alt = work.title;
         figcaption.innerText = work.title;
-        figure.setAttribute('data-category', work.category.name);
+        figure.setAttribute('data-categoryid', work.category.id);
+        figure.setAttribute('data-id', work.id);
 
         //element au DOM
         figure.appendChild(img);
@@ -39,6 +40,21 @@ async function renderWorks() {
 
 // Appeler la fonction pour afficher les œuvres lorsque la page est chargée
 document.addEventListener('DOMContentLoaded', renderWorks);
+
+
+//Fonction pour obtenir les œuvres depuis l'API
+async function getCategories() {
+    const categoriesResponse = await fetch("http://localhost:5678/api/categories");
+    if (!categoriesResponse.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await categoriesResponse.json();{
+        console.error('Il y a eu un problème avec la récupération des œuvres:', error);
+        return [];
+      }
+}
+
+
   
 
   

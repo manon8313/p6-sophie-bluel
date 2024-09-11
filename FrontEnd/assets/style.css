@@ -133,10 +133,33 @@ li:hover {
 	grid-row-gap: 20px;
 }
 
+.filter ul{
+	display: flex;
+    justify-content: center;
+	gap: 10px;
+	margin-left: 58px;
+}
+
+.filter li {
+	display: inline-block;
+    padding: 10px;
+    border: 1px solid #1D6154;
+    cursor: pointer;
+    border-radius: 60px;
+    color: #1D6154;
+    font-family: Syne;
+    font-size: 16px;
+    line-height: 19px;
+	margin-left: 36px;
+}
+
+
 .gallery img {
 	width: 100%;
 
-}
+}	
+
+
 #contact {
 	width: 50%;
 margin: auto;
