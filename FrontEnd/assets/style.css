@@ -133,14 +133,15 @@ li:hover {
 	grid-row-gap: 20px;
 }
 
-.filter ul{
+.filter{
 	display: flex;
     justify-content: center;
 	gap: 10px;
-	margin-left: 58px;
+	margin-left: 50px;
+	margin-bottom: 35px;
 }
 
-.filter li {
+.filter button {
 	display: inline-block;
     padding: 10px;
     border: 1px solid #1D6154;
@@ -150,7 +151,12 @@ li:hover {
     font-family: Syne;
     font-size: 16px;
     line-height: 19px;
-	margin-left: 36px;
+	background-color: white;
+
+	&:hover {
+        background-color: #1D6154;
+		color: #ffffff;
+    }
 }
 
 
