@@ -263,12 +263,9 @@ footer nav ul {
 	outline: none;
 }
 
-.loginButtonContainer {
-	display: flex;
-	justify-content: center;
-}
 
-.loginButton {
+
+#loginButton {
 	background-color: #1D6154;
 	color: white;
 	font-family: "Syne";
@@ -282,6 +279,7 @@ footer nav ul {
     display: flex;
     justify-content: center;
     align-items: center;
+	margin-left: 107px;
 }
 
 .forgotPass {

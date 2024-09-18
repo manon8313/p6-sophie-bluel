@@ -4,11 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const errorContainer = document.getElementById('errorContainer');
 
-        // Fonction pour stocker le token dans le localStorage
-        function storeToken(token) {
-            localStorage.setItem('token', token);
-        }
-
+   
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault(); 
 
