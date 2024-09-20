@@ -108,5 +108,55 @@ async function displayFilters(categories, works) {
 // // Appeler la fonction pour afficher les filtres et les œuvres lorsque la page est chargée
 // document.addEventListener('DOMContentLoaded', renderFiltersAndWorks);
 
+    // Variable simulant l'état de connexion de l'utilisateur
+    let isLoggedIn = true; // Remplace par la logique réelle (par ex. en vérifiant un token)
+
+    // Sélectionner l'élément <li> avec l'ID "login-btn"
+    const loginButton = document.getElementById('login-btn');
+
+    // Fonction pour mettre à jour l'interface en fonction de l'état de connexion
+    function updateLoginStatus() {
+        if (isLoggedIn) {
+            // Transformer le mot "Login" en "Logout" si l'utilisateur est connecté
+            loginButton.textContent = 'Logout';
+            console.log('Utilisateur connecté');
+        } else {
+            // Sinon afficher "Login"
+            loginButton.textContent = 'Login';
+            console.log('Utilisateur déconnecté');
+        }
+    }
+
+    // Gérer le clic sur le bouton login/logout
+    loginButton.addEventListener('click', function() {
+        if (isLoggedIn) {
+            // Lorsqu'on clique sur "Logout" :
+            localStorage.removeItem('token'); // Supprimer le token du localStorage
+            isLoggedIn = false; // Mettre à jour l'état de connexion
+            
+            // Rediriger l'utilisateur vers la page d'accueil
+            window.location.href = 'http://127.0.0.1:5500/FrontEnd/login.html'; // URL de la page d'accueil
+        } else {
+            // Rediriger vers la page de login ou toute autre action de connexion
+            window.location.href = '/login'; // Exemple de redirection vers une page de connexion
+        }
+    });
+
+    // Appeler la fonction dès le chargement de la page pour afficher le bon état
+    updateLoginStatus();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
