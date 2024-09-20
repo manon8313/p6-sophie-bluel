@@ -11,6 +11,9 @@ async function init(){
     if(!token){
         const categories = await getCategories();
         displayFilters(categories, works);
+    } else {
+        // Cacher l'élément de filtre si connecté
+        document.querySelector('.filter').style.display = 'none';
     }
 
 }
@@ -131,14 +134,14 @@ async function displayFilters(categories, works) {
     loginButton.addEventListener('click', function() {
         if (isLoggedIn) {
             // Lorsqu'on clique sur "Logout" :
-            localStorage.removeItem('token'); // Supprimer le token du localStorage
-            isLoggedIn = false; // Mettre à jour l'état de connexion
+            localStorage.removeItem('token'); 
+            isLoggedIn = false; 
             
             // Rediriger l'utilisateur vers la page d'accueil
-            window.location.href = 'http://127.0.0.1:5500/FrontEnd/login.html'; // URL de la page d'accueil
+            window.location.href = 'http://127.0.0.1:5500/FrontEnd/login.html'; 
         } else {
             // Rediriger vers la page de login ou toute autre action de connexion
-            window.location.href = '/login'; // Exemple de redirection vers une page de connexion
+            window.location.href = '/login'; 
         }
     });
 
