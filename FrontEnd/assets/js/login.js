@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Vérifier si la réponse est dans la plage des codes de succès (200-299)
-            if (response.ok) {
+            // if (response.ok) {
                 // Convertir la réponse en JSON
                 const responseData = await response.json();
                 // Vérifier la présence du token dans la réponse
@@ -47,15 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('token', responseData.token);
                     console.log('Token stocké dans le localStorage.');
                     // Rediriger vers la page d'accueil ou une autre page
-                    window.location.href = '/';
+                    window.location.href = 'index.html';
                 } else {
                     throw new Error('Token manquant dans la réponse.');
                 }
-            } else {
+            // } else {
                 // Obtenir et lancer une erreur basée sur le message de l'API
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Informations de connexion incorrectes.');
-            }
+            //     const errorData = await response.json();
+            //     throw new Error(errorData.message || 'Informations de connexion incorrectes.');
+            // }
 
         } catch (error) {
             // Afficher un message d'erreur si l'appel échoue

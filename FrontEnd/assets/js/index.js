@@ -1,3 +1,22 @@
+async function init(){
+    // Fait appel à la fonction work qui récupère les travaux et qui les affiche grace à la fonction displayWorks
+    const works = await getWorks();
+    displayWorks(works);
+
+    // Faire appel à la récupération des catégories doit se faire UNIQUEMENT si je ne suis PAS connecté
+    //  Ternaire :
+    // Variable = condition ? valeur si vrai : valeur si faux
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
+
+    if(!token){
+        const categories = await getCategories();
+        displayFilters(categories, works);
+    }
+
+}
+init()
+
+
 // appel Api
 
 async function getWorks() {
@@ -59,9 +78,7 @@ function filterWorks(works, categoryId) {
 }
 
 // Fonction pour gérer les filtres et les œuvres
-async function renderFiltersAndWorks() {
-  const works = await getWorks(); 
-  const categories = await getCategories(); 
+async function displayFilters(categories, works) {
 
   const filter = document.querySelector('.filter');
   
@@ -78,9 +95,6 @@ async function renderFiltersAndWorks() {
       filter.appendChild(button);
   });
 
-  // Afficher toutes les œuvres initialement
-  displayWorks(works);
-
   // Gérer les événements de clic sur les boutons de filtre
   filter.addEventListener('click', (event) => {
       const categoryId = event.target.getAttribute('data-id');
@@ -91,8 +105,8 @@ async function renderFiltersAndWorks() {
   });
 }
 
-// Appeler la fonction pour afficher les filtres et les œuvres lorsque la page est chargée
-document.addEventListener('DOMContentLoaded', renderFiltersAndWorks);
+// // Appeler la fonction pour afficher les filtres et les œuvres lorsque la page est chargée
+// document.addEventListener('DOMContentLoaded', renderFiltersAndWorks);
 
 
 
