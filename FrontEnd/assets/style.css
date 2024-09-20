@@ -56,8 +56,31 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
+
+#modeedition{
+	background-color: black;
+	width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    padding: 10px;
+	margin: 0;
+	left: 0;
+}
+
+#modeedition h2{
+	display: flex;
+	color: #ffffff;
+	gap: 21px;
+	height: 19px;
+	font-size: 20px;
+	margin: 0;
+}
+
 section {
 	margin: 50px 0
 }
