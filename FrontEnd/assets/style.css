@@ -333,7 +333,17 @@ i {
     font-size: 16px; 
 }
 
-.modifier-btn {
+
+.back {
+	background:#0000004D;
+}
+
+.modal-wrapper {
+	background: white;
+	position: relative;
+}
+
+#modifier-btn {
     width: 58px;
     height: 16px;
     font-family: Work Sans;
@@ -344,5 +354,116 @@ i {
 	border: none;
     background: transparent;
 }
+
+
+
+.gallery-modal {
+	display:grid;
+	grid-template-columns: repeat(5,1fr);
+	gap:10px;
+	margin: 90px;
+	margin-top: 66px;
+}
+
+.gallery-modal article{
+	position: relative;
+}
+
+.gallery-modal img {
+	width: 100%;
+}
+
+.gallery-modal i {
+    position: absolute;
+    top: 4px;
+    right: 0px;
+    color: white;
+    background-color: black;
+    padding: 3px 2px 0px 3px;
+    width: 10px;
+    height: 13px;
+    font-size: 0.7em;
+    left: 61px;
+}
+
+.modale {
+    width: 630px;
+    height: 688px;
+    top: 120%;
+	border-radius: 10px;
+	background: #FFFFFF;	
+	border: none;
+	position: absolute;
+}
+
+
+/* Style pour l'image à l'intérieur de la modale */
+#modalImage {
+	width: 24px;
+	height: 24px;
+	padding: 6px 5.99px 5.99px 6px;
+}
+
+/* Style du bouton de fermeture */
+.close-btn {
+	color: black;
+    border: none;
+    position: relative;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+    top: 14px;
+    font-size: 20px;
+    width: 24px;
+    height: 24px;
+    left: 602px;
+}
+
+.liner {
+    border: 1px solid #B3B3B3;
+    width: 420px;
+    height: 0px;
+}
+
+.title-modal {
+	font-family: Work Sans;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 30.5px;
+    text-align: center;
+    color: black;
+    height: 30px;
+    margin: 16px;
+}
+
+.photos {
+	width: 237px;
+    height: 36px;
+    background: #1D6154;
+    color: white;
+    border-radius: 60px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left:200px;
+	margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

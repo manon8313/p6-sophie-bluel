@@ -14,6 +14,8 @@ async function init(){
     } else {
         // Cacher l'élément de filtre si connecté
         document.querySelector('.filter').style.display = 'none';
+        //peupler la modale 
+        populateWorks(works)
     }
 
 }
@@ -63,12 +65,25 @@ function displayWorks(works) {
       img.src = work.imageUrl;
       img.alt = work.title;
       figcaption.innerText = work.title;
-      figure.setAttribute('data-categoryid', work.categoryId); // Assuming work has a categoryId
+      figure.setAttribute('data-categoryid', work.categoryId);
 
       // Ajouter les éléments dans le DOM
       figure.appendChild(img);
       figure.appendChild(figcaption);
       gallery.appendChild(figure);
+  });
+}
+
+function populateWorks(works){
+    const gallery = document.querySelector('.gallery-modal');
+  gallery.innerHTML = '';
+  works.forEach(work => {
+      const article = `<article data-id="${work.id}">
+                             <img src="${work.imageUrl}" alt="${work.title}">
+                             <i class="fa-solid fa-trash-can"></i>
+                        </article>`
+    gallery.insertAdjacentHTML("afterbegin",article)
+ 
   });
 }
 
@@ -112,7 +127,7 @@ async function displayFilters(categories, works) {
 // document.addEventListener('DOMContentLoaded', renderFiltersAndWorks);
 
     // Variable simulant l'état de connexion de l'utilisateur
-    let isLoggedIn = true; // Remplace par la logique réelle (par ex. en vérifiant un token)
+    let isLoggedIn = true; 
 
     // Sélectionner l'élément <li> avec l'ID "login-btn"
     const loginButton = document.getElementById('login-btn');
@@ -149,17 +164,42 @@ async function displayFilters(categories, works) {
     updateLoginStatus();
 
 
+    // Récupérer les éléments du DOM
+    const modifyButton = document.getElementById('modifier-btn');
+    const modal = document.getElementById('mondal1');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalImage = document.getElementById('modalImage');
+
+    // Fonction pour ouvrir la modale
+    function openModifyModal(imageUrl) {
+        modal.setAttribute('aria-hidden', 'false'); 
+        modal.showModal(); 
+    }
+
+    // Exemple d'URL d'image (à remplacer par la véritable URL)
+    const work = { imageUrl: 'http://127.0.0.1:5500/FrontEnd/imageUrl' }; 
 
 
+    modifyButton.addEventListener('click', () => {
+        openModifyModal(work.imageUrl); 
+        console.log('marche pas')
+    });
+    
 
+    // Gestionnaire d'événements pour fermer la modale
+    closeModalBtn.addEventListener('click', () => {
+        modal.setAttribute('aria-hidden', 'true'); 
+        modal.close();
+    });
 
-
-
-
-
-
-
-
-
-
-
+// Gestionnaire d'événements pour fermer la modale en cliquant en dehors (sur l'overlay)
+    modal.addEventListener('click', (event) => {
+    const rect = modal.querySelector('.modal-wrapper').getBoundingClientRect();
+    
+    // Vérifier si le clic est en dehors de la modale (modal-wrapper)
+    if (!(event.clientX >= rect.left && event.clientX <= rect.right &&
+          event.clientY >= rect.top && event.clientY <= rect.bottom)) {
+        modal.setAttribute('aria-hidden', 'true');
+        modal.close();  // Ferme la modale
+    }
+});
