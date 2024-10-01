@@ -74,18 +74,51 @@ function displayWorks(works) {
   });
 }
 
-function populateWorks(works){
-    const gallery = document.querySelector('.gallery-modal');
-  gallery.innerHTML = '';
-  works.forEach(work => {
-      const article = `<article data-id="${work.id}">
-                             <img src="${work.imageUrl}" alt="${work.title}">
-                             <i class="fa-solid fa-trash-can"></i>
-                        </article>`
-    gallery.insertAdjacentHTML("afterbegin",article)
- 
-  });
+
+// Fonction pour attacher les événements de suppression
+function attachDeleteEvents() {
+    const trashIcons = document.querySelectorAll('.fa-trash-can');
+    trashIcons.forEach(icon => {
+        icon.addEventListener('click', async (event) => {
+            const workId = event.target.getAttribute('data-id');  
+            console.log(`Suppression de l'élément avec l'ID : ${workId}`);
+
+            // Supprimer l'article du DOM
+            const articleToDelete = document.querySelector(`article[data-id="${workId}"]`);
+            if (articleToDelete) {
+                articleToDelete.remove();
+            }
+
+            // Appeler l'API pour supprimer l'élément côté serveur
+            try {
+                await deleteWork(workId);
+                console.log(`Élément avec l'ID ${workId} supprimé côté serveur.`);
+            } catch (error) {
+                console.error(`Erreur lors de la suppression de l'élément avec l'ID ${workId} :`, error);
+            }
+        });
+    });
 }
+
+// Fonction pour remplir les œuvres dans la galerie
+function populateWorks(works) {
+    const gallery = document.querySelector('.gallery-modal');
+    gallery.innerHTML = ''; 
+
+    works.forEach(work => {
+        const article = `
+            <article data-id="${work.id}">
+                <img src="${work.imageUrl}" alt="${work.title}">
+                <i class="fa-solid fa-trash-can" data-id="${work.id}"></i>
+            </article>`;
+        
+        gallery.insertAdjacentHTML("afterbegin", article); 
+    });
+
+    // Attacher les événements de suppression après avoir ajouté les articles dans le DOM
+    attachDeleteEvents();
+}
+
 
 // Fonction pour filtrer les œuvres par catégorie
 function filterWorks(works, categoryId) {
@@ -176,14 +209,24 @@ async function displayFilters(categories, works) {
         modal.showModal(); 
     }
 
-    // Exemple d'URL d'image (à remplacer par la véritable URL)
+   //(à remplacer par la véritable URL)
     const work = { imageUrl: 'http://127.0.0.1:5500/FrontEnd/imageUrl' }; 
 
 
     modifyButton.addEventListener('click', () => {
         openModifyModal(work.imageUrl); 
-        console.log('marche pas')
+        console.log('marche')
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const photoButton = document.getElementById('photoButton');
+        photoButton.addEventListener('click', () => {
+            openPhotoModal(work.imageUrl); 
+            console.log('marche pas')
+        });
+    });
+    
+   
     
 
     // Gestionnaire d'événements pour fermer la modale
@@ -200,6 +243,72 @@ async function displayFilters(categories, works) {
     if (!(event.clientX >= rect.left && event.clientX <= rect.right &&
           event.clientY >= rect.top && event.clientY <= rect.bottom)) {
         modal.setAttribute('aria-hidden', 'true');
-        modal.close();  // Ferme la modale
+        modal.close(); 
     }
 });
+
+ 
+
+// Appel de l'API pour supprimer une œuvre
+async function deleteWork(workId) {
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (response.ok) {
+            console.log(`L'œuvre avec l'ID ${workId} a été supprimée du serveur.`);
+        } else if (response.status === 401) {
+            console.error('Erreur 401 : non autorisé, token invalide ou expiré.');
+        } else {
+            console.error('Erreur lors de la suppression sur le serveur.');
+        }
+    } catch (error) {
+        console.error('Il y a eu un problème lors de la suppression:', error);
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Récupération des éléments
+    const modal1 = document.getElementById('mondal1');
+    const modal2 = document.getElementById('mondal2');
+    const openPhotoButton = document.getElementById('photoButton');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const arrowPrevious = document.getElementById('arrowPrevious');
+
+    // Ouvrir le premier modal
+    document.getElementById('modifier-btn').addEventListener('click', () => {
+        modal1.showModal(); // Affiche le premier modal
+    });
+
+    // Ouvrir le deuxième modal en fermant le premier
+    openPhotoButton.addEventListener('click', () => {
+        modal1.close(); // Ferme le premier modal
+        modal2.showModal(); // Ouvre le deuxième modal
+    });
+
+    // Fermer le premier modal
+    closeModalBtn.addEventListener('click', () => {
+        modal1.close();
+    });
+
+    // Fermer le deuxième modal
+    arrowPrevious.addEventListener('click', () => {
+        modal2.close();
+    });
+});
+
+
+
+
+
+
+
+
+
+
