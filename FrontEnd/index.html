@@ -62,22 +62,36 @@
 			</div>
 		</dialog>
 
-		<dialog id="mondal2" class="modale">
-			<div class="mondal_wrapper2">
-				<button class="arrow" id="arrowPrevious">
-					<i class="fa-solid fa-arrow-left"></i>
-					<i class="fa-solid fa-x"></i>
-				</button>
-					<h1 class="title-modal2"> Ajout photo</h1>
-				<div>
-					<i class="fa-solid fa-image"></i>
-					<label for="monInput">+ Ajouter photo</label>
-					<input type="text" id="monInput" name="monInput">
-				</div>	
-					<h2 class="title">Titre</h2>
-					<h3 class="title1">Catégorie</h3>
+		<dialog id="mondal2" class="modale" aria-hidden="true" role="dialog" aria-labelledby="title-modal">
+			<div class="modal-wrapper2">
+				<span id="arrowPrevious" class="arrow-left"><i class="fa-solid fa-arrow-left"></i></span>
+				<span id="closeModal2Btn" class="xmark"><i class="fa-solid fa-xmark"></i></span>
+				<h1 id="title2">Ajout photo</h1>
+		
+				<form id="form-add-new-work">
+					<div class="container-file">
+						<i class="fa-regular fa-image"></i>
+						<label for="file" class="label-file">+ Ajouter une photo</label>
+						<p>jpg, png : 4mo max</p>
+						<input type="file" name="image" id="file" accept="image/jpeg, image/png" required>
+						<img id="previewImage" src="#" alt="Aperçu de l'image">
+					</div>
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="title" required>
+					<label for="category-input">Catégorie</label>
+		
+					<select id="category-input" name="category" required>
+						<option value="" disabled selected hidden>Sélectionnez une catégorie</option>
+						<option value="1">Objets</option>
+						<option value="2">Appartements</option>
+						<option value="3">Hôtels & restaurants</option>
+					</select>
+		
 					<hr class="liner"></hr>
-					<button class="valider">Valider</button>
+					<div class="container-button-addworks">
+						<button type="submit" id="submitBtn" class="button-modal-2 button-modal-2-active">Valider</button>
+					</div>
+				</form>
 			</div>
 		</dialog>
 

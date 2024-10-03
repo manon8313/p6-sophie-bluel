@@ -452,25 +452,165 @@ i {
 }
 
 
-#mondal2 {
-	width: 630px;
-    height: 688px;
-    top: 120%;
-	border-radius: 10px;
-	color: aqua;
+.modal-wrapper2 {
+	margin:0;
 }
 
 
 
+/* Général pour centrer le modal */
+.modal-addworks {
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin: 100px auto;
+    position: relative;
+    font-family: Arial, sans-serif;
+}
+
+/* Style pour les icônes et boutons de navigation */
+.arrow-left, .xmark {
+    position: absolute;
+    top: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+}
+
+.arrow-left {
+    left: 15px;
+}
+
+.xmark {
+    right: 15px;
+	top: 15px;
+}
+
+#title2 {
+    text-align: center;
+    color: #333;
+	font-family: Work Sans;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 30.5px;
+	margin-bottom: 2em;
+	padding-top: 50px;
+}
+
+/* Styles pour le formulaire */
+#form-add-new-work {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Styles pour le champ d'ajout de fichier */
+.container-file {
+    border: none;
+    padding: 20px;
+    width: 393px;
+    height: 187px;
+    border-radius: 10px;
+    background: #E8F1F6;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin-left: 96px;
+}
+
+.container-file i {
+    font-size: 55px;
+    color: #aaa;
+}
+
+.label-file {
+    display: flex;
+    font-family: Work Sans;
+    text-align: center;
+    border-radius: 50px;
+    width: 173px;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+    background: #CBD6DC;
+    color: #306685;
+    border: none;
+}
+
+.container-file p {
+	font-size: 12px;
+    color: #444444;
+    font-family: Work Sans;
+}
 
 
+#file {
+    display: none;
+}
+
+/* Aperçu de l'image */
+#previewImage {
+    width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+    display: none;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+label[for="title"] {
+	padding-left: 99px;
+}
 
 
+label[for="category-input"] {
+	padding-left: 99px;
+}
+
+/* Styles des champs d'entrée */
+input[type="text"], select {
+	padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    width: 420px;
+    height: 51px;
+    margin-left: 101px;
+}
+
+/* Styles des boutons */
+.container-button-addworks {
+    text-align: center;
+}
+
+.button-modal-2 {
+    background-color: grey;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.button-modal-2-active {
+	background: #A7A7A7;
+    width: 237px;
+    height: 36px;
+    border-radius: 60px;
+}
 
 
-
-
-
+/* Pour l'effet de focus sur les inputs */
+input[type="text"]:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
 
 

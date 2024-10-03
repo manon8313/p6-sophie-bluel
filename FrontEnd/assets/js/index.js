@@ -218,16 +218,6 @@ async function displayFilters(categories, works) {
         console.log('marche')
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const photoButton = document.getElementById('photoButton');
-        photoButton.addEventListener('click', () => {
-            openPhotoModal(work.imageUrl); 
-            console.log('marche pas')
-        });
-    });
-    
-   
-    
 
     // Gestionnaire d'événements pour fermer la modale
     closeModalBtn.addEventListener('click', () => {
@@ -302,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal2.close();
     });
 });
+
 
 
 
