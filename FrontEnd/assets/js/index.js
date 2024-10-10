@@ -271,35 +271,6 @@ async function deleteWork(workId) {
 }
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Récupération des éléments
-    const modal1 = document.getElementById('mondal1');
-    const modal2 = document.getElementById('mondal2');
-    const openPhotoButton = document.getElementById('photoButton');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const arrowPrevious = document.getElementById('arrowPrevious');
-
-    // Ouvrir le premier modal
-    document.getElementById('modifier-btn').addEventListener('click', () => {
-        modal1.showModal(); // Affiche le premier modal
-    });
-
-    // Ouvrir le deuxième modal en fermant le premier
-    openPhotoButton.addEventListener('click', () => {
-        modal1.close(); // Ferme le premier modal
-        modal2.showModal(); // Ouvre le deuxième modal
-    });
-
-    // Fermer le premier modal
-    closeModalBtn.addEventListener('click', () => {
-        modal1.close();
-    });
-
-    // Fermer le deuxième modal
-    arrowPrevious.addEventListener('click', () => {
-        modal2.close();
-    });
-});
 
 // Fonction pour gérer la soumission du formulaire d'ajout d'œuvre
 document.getElementById('form-add-new-work').addEventListener('submit', async (event) => {
@@ -426,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // Successfully submitted
                 const responseData = await response.json();
                 console.log('Photo ajoutée avec succès:', responseData);
                 window.location.href = 'gallery.html'; 
