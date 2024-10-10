@@ -8,15 +8,40 @@ async function init(){
     // Variable = condition ? valeur si vrai : valeur si faux
     const token = localStorage.getItem('token') ? localStorage.getItem('token') : null;
 
+    // Si l'utilisateur n'est PAS connecté
     if(!token){
         const categories = await getCategories();
         displayFilters(categories, works);
-    } else {
-        // Cacher l'élément de filtre si connecté
-        document.querySelector('.filter').style.display = 'none';
-        //peupler la modale 
-        populateWorks(works)
-    }
+        return; // la fonction init s'arrête ici si on entre dans le if
+    } 
+
+    // Si on arrive ici, l'utilisateur est connecté
+
+    // Cacher l'élément de filtre si connecté
+    document.querySelector('.filter').style.display = 'none';
+    //peupler la modale 
+    populateWorks(works)
+
+    
+    // On affiche le bandeau "edition"
+     // Création dynamique du bandeau "édition"
+     const modeEditionBanner = document.createElement('div');
+     modeEditionBanner.id = 'modeedition';
+     modeEditionBanner.innerHTML = '<h2><i class="fa-regular fa-pen-to-square"></i> Mode Édition</h2>';
+     document.body.insertBefore(modeEditionBanner, document.querySelector('header'));
+ 
+     modeEditionBanner.style.display = 'block';
+     console.log("Bandeau d'édition affiché:", modeEditionBanner.style.display);
+
+    // On affiche le bouton "modifier"
+    const modifyButton = document.getElementById('modifier-btn');
+    modifyButton.style.display = 'block';
+    console.log("Bouton modifier affiché:", modifyButton.style.display);
+
+
+    // On change "Login" en "Logout"
+    updateLoginStatus();
+
 
 }
 init()
@@ -156,45 +181,18 @@ async function displayFilters(categories, works) {
   });
 }
 
-// // Appeler la fonction pour afficher les filtres et les œuvres lorsque la page est chargée
-// document.addEventListener('DOMContentLoaded', renderFiltersAndWorks);
-
-    // Variable simulant l'état de connexion de l'utilisateur
-    let isLoggedIn = true; 
-
-    // Sélectionner l'élément <li> avec l'ID "login-btn"
-    const loginButton = document.getElementById('login-btn');
-
-    // Fonction pour mettre à jour l'interface en fonction de l'état de connexion
     function updateLoginStatus() {
-        if (isLoggedIn) {
-            // Transformer le mot "Login" en "Logout" si l'utilisateur est connecté
-            loginButton.textContent = 'Logout';
-            console.log('Utilisateur connecté');
-        } else {
-            // Sinon afficher "Login"
-            loginButton.textContent = 'Login';
-            console.log('Utilisateur déconnecté');
-        }
-    }
-
-    // Gérer le clic sur le bouton login/logout
-    loginButton.addEventListener('click', function() {
-        if (isLoggedIn) {
+        const loginButton = document.getElementById('login-btn');
+        loginButton.textContent = 'Logout';
+        // Gérer le clic sur le bouton login/logout
+        loginButton.addEventListener('click', () => {
             // Lorsqu'on clique sur "Logout" :
             localStorage.removeItem('token'); 
-            isLoggedIn = false; 
             
             // Rediriger l'utilisateur vers la page d'accueil
-            window.location.href = 'http://127.0.0.1:5500/FrontEnd/login.html'; 
-        } else {
-            // Rediriger vers la page de login ou toute autre action de connexion
-            window.location.href = '/login'; 
-        }
-    });
-
-    // Appeler la fonction dès le chargement de la page pour afficher le bon état
-    updateLoginStatus();
+            window.location.href = 'login.html'; 
+        });
+    }
 
 
     // Récupérer les éléments du DOM
@@ -292,6 +290,151 @@ document.addEventListener('DOMContentLoaded', () => {
         modal2.close();
     });
 });
+
+// Fonction pour gérer la soumission du formulaire d'ajout d'œuvre
+document.getElementById('form-add-new-work').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    const fileInput = document.getElementById('file');
+    const titleInput = document.getElementById('title');
+    const categoryInput = document.getElementById('category-input');
+
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    formData.append('title', titleInput.value);
+    formData.append('categoryId', categoryInput.value);
+
+    try {
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            const newWork = await response.json();
+            console.log('Nouvelle œuvre ajoutée:', newWork);
+
+            // Mettre à jour l'affichage des œuvres
+            const works = await getWorks(); // Récupère toutes les œuvres
+            displayWorks(works);
+
+            // Fermer la modale
+            document.getElementById('mondal2').close();
+        } else {
+            console.error('Erreur lors de l\'ajout de l\'œuvre:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout de l\'œuvre:', error);
+    }
+});
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form-add-new-work');
+    const fileInput = document.getElementById('file');
+    const titleInput = document.getElementById('title');
+    const categoryInput = document.getElementById('category-input');
+    const previewImage = document.getElementById('previewImage');
+    const errorContainer = document.getElementById('errorContainer');
+    const button = document.getElementById('submitBtn');
+    
+    // Image preview handler
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
+        if (file) {
+            const fileSizeInMB = file.size / (1024 * 1024); 
+            const validTypes = ['image/jpeg', 'image/png'];
+
+            // Validate file type and size
+            if (!validTypes.includes(file.type)) {
+                errorContainer.innerHTML = '<p style="color: red;">Seules les images JPG et PNG sont acceptées.</p>';
+                fileInput.value = '';
+                return;
+            }
+
+            if (fileSizeInMB > 4) {
+                errorContainer.innerHTML = '<p style="color: red;">La taille de l\'image doit être inférieure à 4 Mo.</p>';
+                fileInput.value = ''; 
+                return;
+            }
+
+            // Preview the selected image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block'; 
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImage.src = '#';
+            previewImage.style.display = 'none'; 
+        }
+    });
+
+    form.addEventListener('input', () => {
+        const isValid = form.checkVisibility();
+        button.style.backgroundColor = isValid ? '#1D6154' : 'grey';
+    });
+
+    // Form submission handler
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Reset error messages
+        errorContainer.innerHTML = '';
+
+        // Validate title and category
+        const title = titleInput.value.trim();
+        const category = categoryInput.value;
+
+        if (!title || !category) {
+            errorContainer.innerHTML = '<p style="color: red;">Le titre et la catégorie sont requis.</p>';
+            return;
+        }
+
+        const file = fileInput.files[0];
+        if (!file) {
+            errorContainer.innerHTML = '<p style="color: red;">Veuillez sélectionner une image.</p>';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('title', title);
+        formData.append('category', category);
+
+        try {
+            const response = await fetch('http://localhost:5678/api/works', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // Successfully submitted
+                const responseData = await response.json();
+                console.log('Photo ajoutée avec succès:', responseData);
+                window.location.href = 'gallery.html'; 
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erreur lors de l\'ajout de la photo.');
+            }
+
+        } catch (error) {
+            errorContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+        }
+    });
+});
+
+
+
+
+
 
 
 

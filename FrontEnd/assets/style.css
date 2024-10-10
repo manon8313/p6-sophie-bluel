@@ -61,15 +61,10 @@ header {
 
 #modeedition{
 	background-color: black;
-	width: 100vw;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    width: 100vw;
     position: fixed;
     top: 0;
     padding: 10px;
-	margin: 0;
-	left: 0;
 }
 
 #modeedition h2{
@@ -79,6 +74,7 @@ header {
 	height: 19px;
 	font-size: 20px;
 	margin: 0;
+	justify-content: center;
 }
 
 section {
@@ -516,10 +512,11 @@ i {
     background: #E8F1F6;
     display: grid;
     justify-items: center;
-    align-items: center;
+    align-items: center;   
     margin-left: 96px;
+    text-align: center;
+    position: relative;
 }
-
 .container-file i {
     font-size: 55px;
     color: #aaa;
@@ -552,12 +549,17 @@ i {
 
 /* Aperçu de l'image */
 #previewImage {
-    width: 100%;
-    max-height: 200px;
-    margin-top: 10px;
+    max-width: 100%; 
+    max-height: 100%; 
     display: none;
-    object-fit: cover;
+    object-fit: contain; 
     border-radius: 10px;
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 label[for="title"] {
@@ -598,7 +600,6 @@ input[type="text"], select {
 }
 
 .button-modal-2-active {
-	background: #A7A7A7;
     width: 237px;
     height: 36px;
     border-radius: 60px;
