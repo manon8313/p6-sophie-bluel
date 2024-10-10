@@ -195,46 +195,56 @@ async function displayFilters(categories, works) {
     }
 
 
-    // Récupérer les éléments du DOM
-    const modifyButton = document.getElementById('modifier-btn');
-    const modal = document.getElementById('mondal1');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const modalImage = document.getElementById('modalImage');
-
-    // Fonction pour ouvrir la modale
-    function openModifyModal(imageUrl) {
-        modal.setAttribute('aria-hidden', 'false'); 
-        modal.showModal(); 
-    }
-
-   //(à remplacer par la véritable URL)
-    const work = { imageUrl: 'http://127.0.0.1:5500/FrontEnd/imageUrl' }; 
-
-
-    modifyButton.addEventListener('click', () => {
-        openModifyModal(work.imageUrl); 
-        console.log('marche')
-    });
-
-
-    // Gestionnaire d'événements pour fermer la modale
-    closeModalBtn.addEventListener('click', () => {
-        modal.setAttribute('aria-hidden', 'true'); 
-        modal.close();
-    });
-
-// Gestionnaire d'événements pour fermer la modale en cliquant en dehors (sur l'overlay)
-    modal.addEventListener('click', (event) => {
-    const rect = modal.querySelector('.modal-wrapper').getBoundingClientRect();
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal1 = document.getElementById('mondal1');
+        const modal2 = document.getElementById('mondal2');
+        const openPhotoButton = document.getElementById('photoButton');
+        const closeModalBtn1 = document.getElementById('closeModalBtn'); // Modale 1
+        const closeModalBtn2 = document.getElementById('closeModal2Btn'); // Modale 2
     
-    // Vérifier si le clic est en dehors de la modale (modal-wrapper)
-    if (!(event.clientX >= rect.left && event.clientX <= rect.right &&
-          event.clientY >= rect.top && event.clientY <= rect.bottom)) {
-        modal.setAttribute('aria-hidden', 'true');
-        modal.close(); 
-    }
-});
-
+        // Fonction pour ouvrir une modale et mettre à jour l'accessibilité
+        function openModal(modal) {
+            modal.setAttribute('aria-hidden', 'false');
+            modal.showModal();
+        }
+    
+        // Ouvrir le premier modal
+        document.getElementById('modifier-btn').addEventListener('click', () => {
+            openModal(modal1);
+        });
+    
+        // Ouvrir le deuxième modal en fermant le premier
+        openPhotoButton.addEventListener('click', () => {
+            modal1.close(); 
+            openModal(modal2);
+        });
+    
+        // Fermer le premier modal
+        closeModalBtn1.addEventListener('click', () => {
+            modal1.close();
+            modal1.setAttribute('aria-hidden', 'true');
+        });
+    
+        // Fermer le deuxième modal
+        closeModalBtn2.addEventListener('click', () => {
+            modal2.close(); 
+            modal2.setAttribute('aria-hidden', 'true');
+        });
+    
+        // Gérer la fermeture de la modale en cliquant à l'extérieur
+        [modal1, modal2].forEach(modal => {
+            modal.addEventListener('click', (event) => {
+                const rect = modal.querySelector('.modal-wrapper').getBoundingClientRect();
+                if (!(event.clientX >= rect.left && event.clientX <= rect.right &&
+                      event.clientY >= rect.top && event.clientY <= rect.bottom)) {
+                    modal.close();
+                    modal.setAttribute('aria-hidden', 'true');
+                }
+            });
+        });
+    
+    });
+    
  
 
 // Appel de l'API pour supprimer une œuvre
