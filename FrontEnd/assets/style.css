@@ -65,6 +65,7 @@ header {
     position: fixed;
     top: 0;
     padding: 10px;
+    left: 0;
 }
 
 #modeedition h2{
@@ -385,7 +386,7 @@ i {
 .modale {
     width: 630px;
     height: 688px;
-    top: 120%;
+    top: 25%;
 	border-radius: 10px;
 	background: #FFFFFF;	
 	border: none;

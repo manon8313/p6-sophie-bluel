@@ -34,10 +34,13 @@ async function init(){
      console.log("Bandeau d'édition affiché:", modeEditionBanner.style.display);
 
     // On affiche le bouton "modifier"
-    const modifyButton = document.getElementById('modifier-btn');
-    modifyButton.style.display = 'block';
-    console.log("Bouton modifier affiché:", modifyButton.style.display);
-
+    const modifierBtn = `<div class="container">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <button id="modifier-btn">Modifier</button>
+                        </div>`
+    document.querySelector('.main-container').insertAdjacentHTML('beforeend', modifierBtn);
+    
+    modalEvent();
 
     // On change "Login" en "Logout"
     updateLoginStatus();
@@ -194,8 +197,7 @@ async function displayFilters(categories, works) {
         });
     }
 
-
-    document.addEventListener('DOMContentLoaded', () => {
+    const modalEvent = () => {
         const modal1 = document.getElementById('mondal1');
         const modal2 = document.getElementById('mondal2');
         const openPhotoButton = document.getElementById('photoButton');
@@ -243,7 +245,7 @@ async function displayFilters(categories, works) {
             });
         });
     
-    });
+    }
     
  
 
@@ -283,7 +285,7 @@ document.getElementById('form-add-new-work').addEventListener('submit', async (e
     const formData = new FormData();
     formData.append('image', fileInput.files[0]);
     formData.append('title', titleInput.value);
-    formData.append('categoryId', categoryInput.value);
+    formData.append('category', categoryInput.value);
 
     try {
         const response = await fetch("http://localhost:5678/api/works", {
@@ -410,19 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
