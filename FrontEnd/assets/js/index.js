@@ -203,6 +203,7 @@ async function displayFilters(categories, works) {
         const openPhotoButton = document.getElementById('photoButton');
         const closeModalBtn1 = document.getElementById('closeModalBtn'); // Modale 1
         const closeModalBtn2 = document.getElementById('closeModal2Btn'); // Modale 2
+        const arrowPrevious = document.getElementById('arrowPrevious');
     
         // Fonction pour ouvrir une modale et mettre à jour l'accessibilité
         function openModal(modal) {
@@ -243,6 +244,12 @@ async function displayFilters(categories, works) {
                     modal.setAttribute('aria-hidden', 'true');
                 }
             });
+        });
+
+        // Gérer le clic de la flèche pour revenir à la modale 1
+        arrowPrevious.addEventListener('click', () => {
+            modal2.close(); // Ferme la modale 2
+            openModal(modal1);  // Rouvre la modale 1
         });
     
     }
@@ -412,6 +419,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
-
