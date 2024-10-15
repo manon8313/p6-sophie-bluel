@@ -385,7 +385,7 @@ i {
 
 .modale {
     width: 630px;
-    height: 688px;
+    height: 691px;
     top: 25%;
 	border-radius: 10px;
 	background: #FFFFFF;	
@@ -614,6 +614,11 @@ input[type="text"]:focus, select:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-
+#errorContainer1 {
+    color: red;            
+    margin-top: 10px; 
+    font-size: 14px; 
+           
+}
 
 

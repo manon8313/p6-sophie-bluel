@@ -330,9 +330,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleInput = document.getElementById('title');
     const categoryInput = document.getElementById('category-input');
     const previewImage = document.getElementById('previewImage');
-    const errorContainer = document.getElementById('errorContainer');
+    const errorContainer1 = document.getElementById('errorContainer1');
     const button = document.getElementById('submitBtn');
-    
+
+    // Fonction pour afficher un message d'erreur
+    function showError(message) {
+        errorContainer1.innerHTML = `<p style="color: red;">${message}</p>`;
+    }
+
     // Image preview handler
     fileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
@@ -341,20 +346,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const fileSizeInMB = file.size / (1024 * 1024); 
             const validTypes = ['image/jpeg', 'image/png'];
 
-            // Validate file type and size
+            // Validation du type et de la taille
             if (!validTypes.includes(file.type)) {
-                errorContainer.innerHTML = '<p style="color: red;">Seules les images JPG et PNG sont acceptées.</p>';
+                showError('Seules les images JPG et PNG sont acceptées.');
                 fileInput.value = '';
+                previewImage.style.display = 'none';
                 return;
             }
 
             if (fileSizeInMB > 4) {
-                errorContainer.innerHTML = '<p style="color: red;">La taille de l\'image doit être inférieure à 4 Mo.</p>';
+                showError('La taille de l\'image doit être inférieure à 4 Mo.');
                 fileInput.value = ''; 
+                previewImage.style.display = 'none';
                 return;
             }
 
-            // Preview the selected image
+            // Prévisualisation de l'image sélectionnée
             const reader = new FileReader();
             reader.onload = function(e) {
                 previewImage.src = e.target.result;
@@ -367,30 +374,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    
     form.addEventListener('input', () => {
-        const isValid = form.checkVisibility();
+        // Utilise checkValidity pour valider tous les champs
+        const isValid = form.checkValidity();
         button.style.backgroundColor = isValid ? '#1D6154' : 'grey';
+        button.disabled = !isValid; // Désactive le bouton tant que le formulaire n'est pas valide
     });
 
-    // Form submission handler
+    // Soumission du formulaire
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         // Reset error messages
-        errorContainer.innerHTML = '';
+        errorContainer1.innerHTML = '';
 
         // Validate title and category
         const title = titleInput.value.trim();
         const category = categoryInput.value;
 
         if (!title || !category) {
-            errorContainer.innerHTML = '<p style="color: red;">Le titre et la catégorie sont requis.</p>';
+            showError('Le titre et la catégorie sont requis.');
             return;
         }
 
         const file = fileInput.files[0];
         if (!file) {
-            errorContainer.innerHTML = '<p style="color: red;">Veuillez sélectionner une image.</p>';
+            showError('Veuillez sélectionner une image.');
             return;
         }
 
@@ -409,13 +419,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const responseData = await response.json();
                 console.log('Photo ajoutée avec succès:', responseData);
                 window.location.href = 'gallery.html'; 
+
+                // Mise à jour de la galerie
+                const works = await getWorks();
+                displayWorks(works);
+
+                // Fermer la modale
+                document.getElementById('mondal2').close();
+
+                  // Ajouter la nouvelle image à la galerie sans recharger la page
+                    addImageToGallery(newWork.imageUrl, title);
+
+                    // Réinitialiser le formulaire
+                    form.reset();
+                    previewImage.style.display = 'none';
+                    errorContainer1.textContent = '';
+
+
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Erreur lors de l\'ajout de la photo.');
             }
 
         } catch (error) {
-            errorContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            showError(error.message);
         }
     });
 });
