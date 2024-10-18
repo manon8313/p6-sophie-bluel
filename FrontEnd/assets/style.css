@@ -622,3 +622,10 @@ input[type="text"]:focus, select:focus {
 }
 
 
+
+
+#error-message {
+
+    color: red;
+}
+

@@ -211,6 +211,8 @@ async function displayFilters(categories, works) {
             modal.showModal();
         }
     
+        
+
         // Ouvrir le premier modal
         document.getElementById('modifier-btn').addEventListener('click', () => {
             openModal(modal1);
@@ -233,8 +235,14 @@ async function displayFilters(categories, works) {
             modal2.close(); 
             modal2.setAttribute('aria-hidden', 'true');
         });
-    
-        // Gérer la fermeture de la modale en cliquant à l'extérieur
+
+           // Gérer le clic de la flèche pour revenir à la modale 1
+           arrowPrevious.addEventListener('click', () => {
+            modal2.close(); // Ferme la modale 2
+            openModal(modal1);  // Rouvre la modale 1
+            });
+         
+             // Gérer la fermeture de la modale en cliquant à l'extérieur
         [modal1, modal2].forEach(modal => {
             modal.addEventListener('click', (event) => {
                 const rect = modal.querySelector('.modal-wrapper').getBoundingClientRect();
@@ -242,17 +250,44 @@ async function displayFilters(categories, works) {
                       event.clientY >= rect.top && event.clientY <= rect.bottom)) {
                     modal.close();
                     modal.setAttribute('aria-hidden', 'true');
+                    console.log('probleme click')
                 }
             });
         });
-
-        // Gérer le clic de la flèche pour revenir à la modale 1
-        arrowPrevious.addEventListener('click', () => {
-            modal2.close(); // Ferme la modale 2
-            openModal(modal1);  // Rouvre la modale 1
-        });
     
+         // Empêcher la fermeture si l'on clique à l'intérieur de la zone de contenu
+         modal1.querySelector('.modal-wrapper').addEventListener('click', (event) => {
+            event.stopPropagation(); // Empêche la propagation de l'événement click vers le modal
+        });
     }
+
+
+
+
+    document.getElementById('form-add-new-work').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêche l'envoi du formulaire
+
+        // Récupérer les valeurs des champs
+        const file = document.getElementById('file').value;
+        const title = document.getElementById('title').value;
+        const category = document.getElementById('category-input').value;
+
+        // Vérifier si tous les champs sont remplis
+        if (!file || !title || !category) {
+            document.getElementById('error-message').innerText = "Tous les champs sont requis.";
+            document.getElementById('error-message').style.display = "block"; // Affiche le message d'erreur
+            console.log('ytrd')
+        } else {
+            document.getElementById('error-message').innerText = ""; // Effacer le message d'erreur
+            document.getElementById('error-message').style.display = ""; // Masque le message d'erreur
+        }
+
+        // Réinitialiser le formulaire
+            this.reset();
+
+       
+    });
+    
     
  
 
