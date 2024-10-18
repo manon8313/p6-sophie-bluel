@@ -338,6 +338,7 @@ i {
 .modal-wrapper {
 	background: white;
 	position: relative;
+    height: 691px;
 }
 
 #modifier-btn {
@@ -385,7 +386,6 @@ i {
 
 .modale {
     width: 630px;
-    height: 691px;
     top: 25%;
 	border-radius: 10px;
 	background: #FFFFFF;	
