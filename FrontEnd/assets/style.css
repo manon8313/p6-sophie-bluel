@@ -115,6 +115,11 @@ nav li {
 	font-size: 1.2em;
 }
 
+nav li a {
+    text-decoration: none;
+    color:black;
+}
+
 li:hover {
 	color: #B1663C;
 }
@@ -420,6 +425,13 @@ i {
     border: 1px solid #B3B3B3;
     width: 420px;
     height: 0px;
+    margin-top: 22%;
+}
+
+.liner2 {
+    border: 1px solid #B3B3B3;
+    width: 420px;
+    height: 0px;
 }
 
 .title-modal {
@@ -446,6 +458,7 @@ i {
     position: absolute;
     left:200px;
 	margin-top: 30px;
+    top: 78%;
 }
 
 
