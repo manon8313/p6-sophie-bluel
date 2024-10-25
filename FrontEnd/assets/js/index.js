@@ -94,6 +94,7 @@ function displayWorks(works) {
       img.alt = work.title;
       figcaption.innerText = work.title;
       figure.setAttribute('data-categoryid', work.categoryId);
+      figure.setAttribute('data-id', work.id);
 
       // Ajouter les éléments dans le DOM
       figure.appendChild(img);
@@ -113,8 +114,10 @@ function attachDeleteEvents() {
 
             // Supprimer l'article du DOM
             const articleToDelete = document.querySelector(`article[data-id="${workId}"]`);
-            if (articleToDelete) {
+            const figureToDelete = document.querySelector(`figure[data-id="${workId}"]`);
+            if (articleToDelete && figureToDelete) {
                 articleToDelete.remove();
+                figureToDelete.remove();
             }
 
             // Appeler l'API pour supprimer l'élément côté serveur
@@ -128,7 +131,7 @@ function attachDeleteEvents() {
     });
 }
 
-// Fonction pour remplir les œuvres dans la galerie
+// Fonction pour remplir les œuvres dans la modal
 function populateWorks(works) {
     const gallery = document.querySelector('.gallery-modal');
     gallery.innerHTML = ''; 
@@ -328,6 +331,7 @@ document.getElementById('form-add-new-work').addEventListener('submit', async (e
             // Mettre à jour l'affichage des œuvres
             const works = await getWorks(); // Récupère toutes les œuvres
             displayWorks(works);
+            populateWorks(works);
 
             // Fermer la modale
             document.getElementById('mondal2').close();
