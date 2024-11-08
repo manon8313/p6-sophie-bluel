@@ -153,39 +153,57 @@ function populateWorks(works) {
 
 // Fonction pour filtrer les œuvres par catégorie
 function filterWorks(works, categoryId) {
-  if (categoryId === 'all') {
-      return works; // Si 'Tous' est sélectionné, afficher toutes les œuvres
+    if (categoryId === 'all') {
+        return works; // Si 'Tous' est sélectionné, afficher toutes les œuvres
+    }
+    return works.filter(work => work.categoryId == categoryId);
   }
-  return works.filter(work => work.categoryId == categoryId);
-}
-
-// Fonction pour gérer les filtres et les œuvres
-async function displayFilters(categories, works) {
-
-  const filter = document.querySelector('.filter');
   
-  // Ajouter le bouton "Tous" par défaut
-  filter.innerHTML = '<button type="button" data-id="all">Tous</button>';
-
-  // Créer un bouton pour chaque catégorie
-  categories.forEach(category => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.textContent = category.name;
-      button.setAttribute('data-id', category.id);
-
-      filter.appendChild(button);
-  });
-
-  // Gérer les événements de clic sur les boutons de filtre
-  filter.addEventListener('click', (event) => {
-      const categoryId = event.target.getAttribute('data-id');
-      if (categoryId) {
-          const filteredWorks = filterWorks(works, categoryId);
-          displayWorks(filteredWorks); // Afficher les œuvres filtrées
+  // Fonction pour gérer les filtres et les œuvres
+  async function displayFilters(categories, works) {
+  
+      const filter = document.querySelector('.filter');
+      
+      // Vérifiez que l'élément `.filter` existe
+      if (!filter) {
+          console.error("L'élément avec la classe 'filter' n'a pas été trouvé dans le DOM.");
+          return;
       }
-  });
-}
+  
+      // Ajouter le bouton "Tous" par défaut
+      filter.innerHTML = '<button type="button" data-id="all">Tous</button>';
+  
+      // Créer un bouton pour chaque catégorie
+      categories.forEach(category => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = category.name;
+          button.setAttribute('data-id', category.id);
+  
+          filter.appendChild(button);
+      });
+  
+      // Gérer les événements de clic sur les boutons de filtre
+      filter.addEventListener('click', (event) => {
+          const categoryId = event.target.getAttribute('data-id');
+  
+          if (categoryId) {
+              // Retirer la classe active de tous les boutons
+              document.querySelectorAll('.filter button').forEach(button => {
+                  button.classList.remove('active');
+              });
+  
+              // Ajouter la classe active au bouton cliqué
+              event.target.classList.add('active');
+  
+              // Filtrer les œuvres et afficher les œuvres filtrées
+              const filteredWorks = filterWorks(works, categoryId);
+              displayWorks(filteredWorks); // Afficher les œuvres filtrées
+          }
+      });
+  }
+  
+
 
     function updateLoginStatus() {
         const loginButton = document.getElementById('login-btn');
@@ -236,14 +254,14 @@ async function displayFilters(categories, works) {
         // Fermer le deuxième modal
         closeModalBtn2.addEventListener('click', () => {
             modal2.close(); 
-            resetForm()
+            resetForm();
             modal2.setAttribute('aria-hidden', 'true');
         });
 
            // Gérer le clic de la flèche pour revenir à la modale 1
            arrowPrevious.addEventListener('click', () => {
             modal2.close(); // Ferme la modale 2
-            resetForm()
+            resetForm();
             openModal(modal1);  // Rouvre la modale 1
             });
          
@@ -254,7 +272,7 @@ async function displayFilters(categories, works) {
                 if(backdrop == null){
                     modal.close();
                     modal.setAttribute('aria-hidden', 'true');
-                    resetForm()
+                    resetForm();
                 }
             });
 
@@ -268,11 +286,13 @@ async function displayFilters(categories, works) {
     function resetForm() {
         const previewImage = document.getElementById('previewImage');
         previewImage.src = '#';
-        previewImage.style.display = 'none'
+        previewImage.style.display = 'none';
+
         const title = document.querySelector('#title')
-        title.value = ""
+        title.value = "";
+
         const category = document.querySelector('#category-input')
-        category.selectedIndex = 0
+        category.selectedIndex = 0;
     }
 
 
@@ -335,6 +355,10 @@ document.getElementById('form-add-new-work').addEventListener('submit', async (e
 
             // Fermer la modale
             document.getElementById('mondal2').close();
+
+             // Réinitialiser le formulaire
+             resetForm();
+             
         } else {
             console.error('Erreur lors de l\'ajout de l\'œuvre:', response.statusText);
         }
@@ -453,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     addImageToGallery(newWork.imageUrl, title);
 
                     // Réinitialiser le formulaire
-                    form.reset();
+                    resetForm();
                     previewImage.style.display = 'none';
                     errorContainer1.textContent = '';
 
@@ -467,4 +491,14 @@ document.addEventListener('DOMContentLoaded', () => {
             showError(error.message);
         }
     });
+
+    function validerEtReset() {
+        const form = document.getElementById('form-add-new-work');
+        if (form) {
+            form.reset(); // Réinitialise le formulaire
+        }
+    }
+    
+
+    
 });

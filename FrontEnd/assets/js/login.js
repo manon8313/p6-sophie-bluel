@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Vérifier que les champs ne sont pas vides
         if (!email || !password) {
-            errorContainer.innerHTML = '<p style="color: red;">Les champs email et mot de passe sont requis.</p>';
+            errorContainer.innerHTML = 'Les champs email et mot de passe sont requis.';
             return;
         }
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Rediriger vers la page d'accueil ou une autre page
                     window.location.href = 'index.html';
                 } else {
-                    throw new Error('Token manquant dans la réponse.');
+                    throw new Error('identifiant ou mot de passe erroné');
                 }
             // } else {
                 // Obtenir et lancer une erreur basée sur le message de l'API
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             // Afficher un message d'erreur si l'appel échoue
-            errorContainer.innerHTML = `<p style="color: red;">${error.message}</p>`;
+            errorContainer.innerHTML = `${error.message}`;
         }
     });
 });

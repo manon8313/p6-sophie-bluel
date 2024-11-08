@@ -76,6 +76,7 @@ header {
 	font-size: 20px;
 	margin: 0;
 	justify-content: center;
+    font-family:Work Sans;
 }
 
 section {
@@ -182,6 +183,11 @@ li:hover {
         background-color: #1D6154;
 		color: #ffffff;
     }
+}
+
+.filter button.active {
+    background-color: #1D6154;
+    color: white;
 }
 
 
@@ -304,6 +310,13 @@ footer nav ul {
     align-items: center;
 }
 
+#errorContainer {
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+
+
 .forgotPass {
 	display: flex;
     justify-content: center;
@@ -391,11 +404,11 @@ i {
 
 .modale {
     width: 630px;
-    top: 25%;
+    top: 0%;
 	border-radius: 10px;
 	background: #FFFFFF;	
 	border: none;
-	position: absolute;
+	position: fixed;
 }
 
 
@@ -586,15 +599,15 @@ label[for="category-input"] {
 }
 
 /* Styles des champs d'entrée */
-input[type="text"], select {
+input[id="title"], select {
 	padding: 10px;
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ddd;
     box-sizing: border-box;
-    width: 420px;
     height: 51px;
-    margin-left: 101px;
+    width: 69%;
+    margin-left: 95px;
 }
 
 /* Styles des boutons */
